@@ -3,6 +3,23 @@ import 'remixicon/fonts/remixicon.css'
 const App = ()=>{
 
   const[sidebar,setSidebar] = useState(-450)
+  const[form,setForm] = useState({
+    fullname:'',
+    class:'',
+    roll:'',
+    subject:'',
+
+  })
+
+  const formHandler =(e)=>{
+    const input = e.target
+    const value = input.value
+    const key = input.name
+    setForm({
+      ...form,
+      [key]:value
+    })
+  }
 
   const handelSidebar = ()=>{
    setSidebar(sidebar===0?-450:0)
@@ -37,9 +54,9 @@ const App = ()=>{
         fontSize:'15px',
         borderRadius:'5px'
 
-      }}><i class="ri-user-add-line" style={{marginRight:'5px'}}></i>Add Student</button>
+      }}><i className="ri-user-add-line" style={{marginRight:'5px'}}></i>Add Student</button>
       <div style={{
-        background:'#0072d4',
+          background:'#9100ff',
         width:450,
         height:'100%',
         position:'fixed',
@@ -62,10 +79,75 @@ const App = ()=>{
           background:'transparent',
           border:'none'
         }}>
-        <i class="ri-close-circle-line" ></i>
+        <i className="ri-close-circle-line" ></i>
         </button>
         <h1 style={{color:'#fff'}}>Add Student</h1>
-
+        <form style={{
+          display:'flex',
+          flexDirection:'column',
+          gap:10,
+        }}>
+         <input
+         onChange={formHandler}
+         value={form.fullname}
+         type="text" 
+         placeholder='Fullname'
+         name='fullname'
+         required
+         style={{
+          border:'none',
+          padding:15,
+          borderRadius:4,
+         }}
+         />
+         <input 
+         onChange={formHandler}
+         value={form.class}
+         type="number" 
+         placeholder='Class'
+         name='class'
+         required
+         style={{
+          border:'none',
+          padding:15,
+          borderRadius:4,
+         }}
+         />
+          <input 
+          onChange={formHandler}type="number" 
+          value={form.roll}
+         placeholder='Roll No.'
+         name='roll'
+         required
+         style={{
+          border:'none',
+          padding:15,
+          borderRadius:4,
+         }}
+         />
+          <input
+          onChange={formHandler}
+          value={form.subject}
+          type="text" 
+         placeholder='Subject'
+         name='subject'
+         required
+         style={{
+          border:'none',
+          padding:15,
+          borderRadius:4,
+         }}
+         />
+         <button type='submit' style={{
+          background:'black',
+          border:'none',
+          borderRadius:'5px',
+          padding:10,
+          color:'#fff',
+          fontSize:18
+         
+         }}>Submit</button>
+         </form>
       </div>
     </div>
   )
