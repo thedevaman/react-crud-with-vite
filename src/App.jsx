@@ -3,6 +3,7 @@ import 'remixicon/fonts/remixicon.css'
 const App = ()=>{
 
   const[sidebar,setSidebar] = useState(-450)
+  const[student,setStudent] = useState(['aman','ram'])
   const[form,setForm] = useState({
     fullname:'',
     class:'',
@@ -27,6 +28,12 @@ const App = ()=>{
 
   const closeSidebar =()=>{
     setSidebar(-450)
+  }
+
+  const createStudent = (e)=>{
+    e.preventDefault()
+    setStudent([...student,form])
+   
   }
 
 
@@ -82,7 +89,9 @@ const App = ()=>{
         <i className="ri-close-circle-line" ></i>
         </button>
         <h1 style={{color:'#fff'}}>Add Student</h1>
-        <form style={{
+        <form 
+        onSubmit={createStudent}
+        style={{
           display:'flex',
           flexDirection:'column',
           gap:10,
