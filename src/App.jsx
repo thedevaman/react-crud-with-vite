@@ -1,9 +1,11 @@
 import {useState} from 'react'
 import 'remixicon/fonts/remixicon.css'
+import './App.css'
+import Swal from 'sweetalert2'
 const App = ()=>{
 
   const[sidebar,setSidebar] = useState(-450)
-  const[student,setStudent] = useState(['aman','ram'])
+  const[student,setStudent] = useState([])
   const[form,setForm] = useState({
     fullname:'',
     class:'',
@@ -20,6 +22,8 @@ const App = ()=>{
       ...form,
       [key]:value
     })
+
+    
   }
 
   const handelSidebar = ()=>{
@@ -33,7 +37,32 @@ const App = ()=>{
   const createStudent = (e)=>{
     e.preventDefault()
     setStudent([...student,form])
+    setForm({
+      fullname:'',
+    class:'',
+    roll:'',
+    subject:'',
+    })
+    setSidebar(-450)
+    Swal.fire({
+      title: 'Success!',
+      text: 'Data Added Successfully',
+      icon: 'success',
+      confirmButtonText: 'Cool'
+    })
    
+  }
+
+  const deleteStudent = (index)=>{
+    const studentlist = [...student]
+    studentlist.splice(index,1)
+    setStudent(studentlist)
+    Swal.fire({
+      title: 'Success!',
+      text: 'Data Deleted Successfully',
+      icon: 'success',
+      confirmButtonText: 'Cool'
+    })
   }
 
 
@@ -62,6 +91,48 @@ const App = ()=>{
         borderRadius:'5px'
 
       }}><i className="ri-user-add-line" style={{marginRight:'5px'}}></i>Add Student</button>
+      <div style={{
+        margin:'0px 100px'
+      }}>
+        <table className='crud-app'>
+          <thead>
+          <tr>
+            <th>Sr.No.</th>
+            <th>Name</th>
+            <th>Class</th>
+            <th>Roll No.</th>
+            <th>Subject</th>
+            <th>Action</th>
+          </tr>
+          </thead>
+          <tbody>
+            {
+              student.map((list,index)=>(
+                <tr key={index}>
+              <td>{index+1}</td>
+              <td>{list.fullname}</td>
+              <td>{list.class}</td>
+              <td>{list.roll}</td>
+              <td>{list.subject}</td>
+              <td> <button 
+                    onClick={()=>deleteStudent(index)}
+                    style={{
+                    border:'none',
+                    color:'white',
+                    borderRadius:4,
+                    height:32,
+                    width:32,
+                    background:'red'
+                  }}><i className="ri-delete-bin-line"></i></button></td>
+            </tr>
+                
+              ))
+            
+          
+}
+          </tbody>
+        </table>
+      </div>
       <div style={{
           background:'#9100ff',
         width:450,
