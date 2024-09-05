@@ -6,6 +6,13 @@ const App = ()=>{
 
   const[sidebar,setSidebar] = useState(-450)
   const[student,setStudent] = useState([])
+  const[editindex,setEditIndex] = useState(null)
+  const model = {
+    fullname:'',
+    class:'',
+    roll:'',
+    subject:'',
+  }
   const[form,setForm] = useState({
     fullname:'',
     class:'',
@@ -28,6 +35,8 @@ const App = ()=>{
 
   const handelSidebar = ()=>{
    setSidebar(sidebar===0?-450:0)
+   setEditIndex(null)
+   setForm(model)
   }
 
   const closeSidebar =()=>{
@@ -37,12 +46,7 @@ const App = ()=>{
   const createStudent = (e)=>{
     e.preventDefault()
     setStudent([...student,form])
-    setForm({
-      fullname:'',
-    class:'',
-    roll:'',
-    subject:'',
-    })
+    setForm(model)
     setSidebar(-450)
     Swal.fire({
       title: 'Success!',
@@ -63,6 +67,28 @@ const App = ()=>{
       icon: 'success',
       confirmButtonText: 'Cool'
     })
+  }
+
+  const editStudent = (index)=>{
+    setSidebar(0)
+    setForm(student[index])
+    setEditIndex(index)
+  }
+
+  const saveStudent = (e)=>{
+    e.preventDefault()
+    const backeditstudent = [...student]
+    backeditstudent[editindex] = form
+    setStudent(backeditstudent)
+    setForm(model)
+    setSidebar(-450)
+    Swal.fire({
+      title: 'Success!',
+      text: 'Data Updated Successfully',
+      icon: 'success',
+      confirmButtonText: 'Cool'
+    })
+
   }
 
 
@@ -114,7 +140,20 @@ const App = ()=>{
               <td>{list.class}</td>
               <td>{list.roll}</td>
               <td>{list.subject}</td>
-              <td> <button 
+              <td> 
+              <button 
+                    onClick = {()=>editStudent(index)}
+                    style={{
+                    border:'none',
+                    color:'white',
+                    borderRadius:4,
+                    height:32,
+                    width:32,
+                    background:'green',
+                    marginRight:5,
+                  }}><i className="ri-edit-box-fill"></i></button>
+                
+                <button 
                     onClick={()=>deleteStudent(index)}
                     style={{
                     border:'none',
@@ -159,10 +198,10 @@ const App = ()=>{
         }}>
         <i className="ri-close-circle-line" ></i>
         </button>
-        <h1 style={{color:'#fff'}}>Add Student</h1>
+        <h1 style={{color:'#fff'}}>{editindex===null?'Add Student':'Edit Student'}</h1>
         <form 
-        onSubmit={createStudent}
-        style={{
+        onSubmit={editindex===null?createStudent:saveStudent}
+          style={{
           display:'flex',
           flexDirection:'column',
           gap:10,
@@ -218,6 +257,8 @@ const App = ()=>{
           borderRadius:4,
          }}
          />
+         {
+         editindex===null?
          <button type='submit' style={{
           background:'black',
           border:'none',
@@ -227,6 +268,17 @@ const App = ()=>{
           fontSize:18
          
          }}>Submit</button>
+         :
+         <button type='submit' style={{
+          background:'#FFC107',
+          border:'none',
+          borderRadius:'5px',
+          padding:10,
+          color:'black',
+          fontSize:18
+         
+         }}>Save</button>
+          }
          </form>
       </div>
     </div>
